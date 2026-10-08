@@ -12,5 +12,5 @@
 *.sha256
 *.nupkg
 
-# Local staging area used to build a pack before uploading it to a release.
-packs/
+# Local staging area used to build a model before uploading it to a release.
+staging/

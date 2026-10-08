@@ -1,6 +1,6 @@
 # catalog.json is production configuration for every Viewer 9 client at once: the app reads it on every
-# visit to the language-pack settings, and a malformed or wrong entry breaks installs everywhere
-# simultaneously. It is meant to be written only by scripts/publish-language-pack.ps1 in the Viewer9 repo,
+# visit to the Audio Models settings, and a malformed or wrong entry breaks installs everywhere
+# simultaneously. It is meant to be written only by scripts/publish-audio-model.ps1 in the Viewer9 repo,
 # which validates a model against the shipping aligner before it will publish anything.
 #
 # Nothing can stop someone with write access editing this file by hand. This makes that edit FAIL LOUDLY
@@ -38,15 +38,15 @@ jobs:
 
           if cat.get('schema') != 1:
               bad(f"schema is {cat.get('schema')!r}, expected 1")
-          packs = cat.get('packs')
-          if not isinstance(packs, list):
-              print("::error::'packs' must be a list"); sys.exit(1)
+          models = cat.get('models')
+          if not isinstance(models, list):
+              print("::error::'models' must be a list"); sys.exit(1)
 
-          print(f"{len(packs)} pack(s) in the catalog")
+          print(f"{len(models)} model(s) in the catalog")
           required = ('id', 'language', 'variant', 'version', 'sizeBytes', 'sha256', 'url', 'minAppVersion')
           seen = set()
 
-          for p in packs:
+          for p in models:
               pid = p.get('id', '<no id>')
               for k in required:
                   if k not in p or p[k] in (None, ''):
@@ -56,7 +56,7 @@ jobs:
               seen.add(pid)
 
               # The app keys models by language and chooses between them by variant, so both have to be
-              # shapes it recognises or the pack is invisible to it.
+              # shapes it recognises or the model is invisible to it.
               if not re.fullmatch(r'[a-z]{2,3}', str(p.get('language', ''))):
                   bad(f"{pid}: language {p.get('language')!r} is not a bare code like 'ar'")
               if p.get('variant') not in ('full', 'compact'):
