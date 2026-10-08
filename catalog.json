@@ -2,6 +2,20 @@
     "schema":  1,
     "models":  [
                    {
+                       "id":  "ar-xlsr",
+                       "language":  "ar",
+                       "displayName":  "Arabic",
+                       "variant":  "full",
+                       "version":  "1.0.0",
+                       "sizeBytes":  240925355,
+                       "sha256":  "d4b93eec45afc03558659506940cb226fe31785a9179563ce06120205a6c7437",
+                       "modelSha256":  "8b5862535bf2598415d8062e9fa328a2a5939f149d91908228dfff9822e06322",
+                       "url":  "https://github.com/JusticeAVSolutions/Viewer9-AudioModels/releases/download/ar-xlsr-1.0.0/ar-xlsr-1.0.0.zip",
+                       "minAppVersion":  "9.0.0",
+                       "license":  "",
+                       "notes":  "jonatasgrosman/wav2vec2-large-xlsr-53-arabic, Apache-2.0, int8. One passing recording (-775 ms, 67 of 113); a second fails for reasons not yet understood."
+                   },
+                   {
                        "id":  "es-javs-v1",
                        "language":  "es",
                        "displayName":  "Spanish",
