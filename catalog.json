@@ -1,4 +1,19 @@
 {
-  "schema": 1,
-  "models": []
+    "schema":  1,
+    "models":  [
+                   {
+                       "id":  "es-javs-v1",
+                       "language":  "es",
+                       "displayName":  "Spanish",
+                       "variant":  "compact",
+                       "version":  "1.0.0",
+                       "sizeBytes":  86210056,
+                       "sha256":  "05239f00726eebd361f2836237b2f598b8afe30e9840e66c103d0fc763411007",
+                       "modelSha256":  "ef063eeffac22d28d4de538faabc417bb79de334a134b278a7698f6f9960b7a5",
+                       "url":  "https://github.com/JusticeAVSolutions/Viewer9-AudioModels/releases/download/es-javs-v1-1.0.0/es-javs-v1-1.0.0.zip",
+                       "minAppVersion":  "9.0.0",
+                       "license":  "",
+                       "notes":  "Trained by JAVS from facebook/wav2vec2-base on Multilingual LibriSpeech. 117 MB; -795 ms, 62 of 108 words on the hardest audio available."
+                   }
+               ]
 }
