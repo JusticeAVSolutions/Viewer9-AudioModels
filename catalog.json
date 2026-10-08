@@ -14,6 +14,20 @@
                        "minAppVersion":  "9.0.0",
                        "license":  "",
                        "notes":  "Trained by JAVS from facebook/wav2vec2-base on Multilingual LibriSpeech. 117 MB; -795 ms, 62 of 108 words on the hardest audio available."
+                   },
+                   {
+                       "id":  "es-xlsr",
+                       "language":  "es",
+                       "displayName":  "Spanish",
+                       "variant":  "full",
+                       "version":  "1.0.0",
+                       "sizeBytes":  241025266,
+                       "sha256":  "7f1cae9f264937253bb4ca45c9d55f34ec415847e0dab47007605c7b23a734c2",
+                       "modelSha256":  "e9f34394ac008c65afe627016021209c69c4dfba8f37f3dc7dd77fef67342a26",
+                       "url":  "https://github.com/JusticeAVSolutions/Viewer9-AudioModels/releases/download/es-xlsr-1.0.0/es-xlsr-1.0.0.zip",
+                       "minAppVersion":  "9.0.0",
+                       "license":  "",
+                       "notes":  "jonatasgrosman/wav2vec2-large-xlsr-53-spanish, Apache-2.0, int8. 339 MB; -815 ms, 93 of 108 words - more confident than the compact model, and slower."
                    }
                ]
 }
