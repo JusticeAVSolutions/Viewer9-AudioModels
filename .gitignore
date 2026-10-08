@@ -1,0 +1,16 @@
+# Pack PAYLOADS ship as GitHub release assets, never as git objects.
+#
+# A model is 100-400 MB. Git keeps every version of every file forever, so one accidental commit of a model
+# bloats every clone of this repo permanently and cannot be undone without rewriting history. GitHub rejects
+# files over 100 MB outright, but a smaller model, a partial download or a stray .data sidecar would slip
+# through and do the damage quietly.
+#
+# The only things that belong in git here are catalog.json, the README, and the licence notices.
+*.onnx
+*.onnx.data
+*.zip
+*.sha256
+*.nupkg
+
+# Local staging area used to build a pack before uploading it to a release.
+packs/
