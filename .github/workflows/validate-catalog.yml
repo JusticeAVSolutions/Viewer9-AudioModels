@@ -1,0 +1,89 @@
+# catalog.json is production configuration for every Viewer 9 client at once: the app reads it on every
+# visit to the language-pack settings, and a malformed or wrong entry breaks installs everywhere
+# simultaneously. It is meant to be written only by scripts/publish-language-pack.ps1 in the Viewer9 repo,
+# which validates a model against the shipping aligner before it will publish anything.
+#
+# Nothing can stop someone with write access editing this file by hand. This makes that edit FAIL LOUDLY
+# and immediately instead of reaching clients quietly.
+name: Validate catalog
+
+on:
+  push:
+    paths: ['catalog.json']
+  pull_request:
+    paths: ['catalog.json']
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check catalog.json
+        env:
+          REPO: ${{ github.repository }}
+        run: |
+          python3 - <<'PY'
+          import json, os, sys, urllib.request, re
+
+          fail = []
+          def bad(m): fail.append(m)
+
+          try:
+              cat = json.load(open('catalog.json', encoding='utf-8'))
+          except Exception as e:
+              print(f"::error::catalog.json is not valid JSON: {e}")
+              sys.exit(1)
+
+          if cat.get('schema') != 1:
+              bad(f"schema is {cat.get('schema')!r}, expected 1")
+          packs = cat.get('packs')
+          if not isinstance(packs, list):
+              print("::error::'packs' must be a list"); sys.exit(1)
+
+          print(f"{len(packs)} pack(s) in the catalog")
+          required = ('id', 'language', 'variant', 'version', 'sizeBytes', 'sha256', 'url', 'minAppVersion')
+          seen = set()
+
+          for p in packs:
+              pid = p.get('id', '<no id>')
+              for k in required:
+                  if k not in p or p[k] in (None, ''):
+                      bad(f"{pid}: missing '{k}'")
+              if pid in seen:
+                  bad(f"{pid}: duplicate id")
+              seen.add(pid)
+
+              # The app keys models by language and chooses between them by variant, so both have to be
+              # shapes it recognises or the pack is invisible to it.
+              if not re.fullmatch(r'[a-z]{2,3}', str(p.get('language', ''))):
+                  bad(f"{pid}: language {p.get('language')!r} is not a bare code like 'ar'")
+              if p.get('variant') not in ('full', 'compact'):
+                  bad(f"{pid}: variant {p.get('variant')!r} must be 'full' or 'compact'")
+              if not re.fullmatch(r'[0-9a-f]{64}', str(p.get('sha256', ''))):
+                  bad(f"{pid}: sha256 is not 64 lowercase hex characters")
+              if not str(p.get('url', '')).startswith(f"https://github.com/{os.environ['REPO']}/releases/download/"):
+                  bad(f"{pid}: url does not point at a release asset of this repo")
+
+              # Does the asset actually exist, and is it the size we advertise? A catalog entry pointing at
+              # a missing or mismatched asset is the failure that would hit every client at once. The full
+              # SHA-256 is verified by the app on every install, so CI only has to catch the gross case.
+              try:
+                  req = urllib.request.Request(p['url'], method='HEAD')
+                  with urllib.request.urlopen(req, timeout=60) as r:
+                      got = int(r.headers.get('Content-Length', -1))
+                  if got != int(p['sizeBytes']):
+                      bad(f"{pid}: asset is {got} bytes, catalog says {p['sizeBytes']}")
+                  else:
+                      print(f"  {pid} {p['version']}: asset present, {got:,} bytes")
+              except Exception as e:
+                  bad(f"{pid}: cannot reach {p['url']} ({e})")
+
+          if fail:
+              for m in fail:
+                  print(f"::error::{m}")
+              print(f"\n{len(fail)} problem(s). This catalog must not ship.")
+              sys.exit(1)
+          print("\ncatalog.json is valid")
+          PY
