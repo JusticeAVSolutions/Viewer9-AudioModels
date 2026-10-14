@@ -16,6 +16,20 @@
                        "notes":  "jonatasgrosman/wav2vec2-large-xlsr-53-arabic, Apache-2.0, int8. One passing recording (-775 ms, 67 of 113); a second fails for reasons not yet understood."
                    },
                    {
+                       "id":  "en-w2v2-base",
+                       "language":  "en",
+                       "displayName":  "English",
+                       "variant":  "full",
+                       "version":  "1.0.0",
+                       "sizeBytes":  79491753,
+                       "sha256":  "2af98c2ada50205e5f2c2238f7a72adcf9977c42220858a31a05c9665e5badad",
+                       "modelSha256":  "cc56ffda71ddd7255507e5cbbc3fde2a236258dfb9ca8d741fb83cce794fcd19",
+                       "url":  "https://github.com/JusticeAVSolutions/Viewer9-AudioModels/releases/download/en-w2v2-base-1.0.0/en-w2v2-base-1.0.0.zip",
+                       "minAppVersion":  "9.0.0",
+                       "license":  "",
+                       "notes":  "facebook/wav2vec2-base-960h, int8. Ships inside the installer AND is published: a developer building from source has no installer and models/ is gitignored, so the catalog is their only route to the one language the app treats as always available."
+                   },
+                   {
                        "id":  "es-javs-v1",
                        "language":  "es",
                        "displayName":  "Spanish",
