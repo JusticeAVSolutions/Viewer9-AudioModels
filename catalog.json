@@ -19,7 +19,7 @@
                        "id":  "en-w2v2-base",
                        "language":  "en",
                        "displayName":  "English",
-                       "variant":  "full",
+                       "variant":  "compact",
                        "version":  "1.0.0",
                        "sizeBytes":  79491753,
                        "sha256":  "2af98c2ada50205e5f2c2238f7a72adcf9977c42220858a31a05c9665e5badad",
